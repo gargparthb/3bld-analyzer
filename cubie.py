@@ -32,6 +32,10 @@ class Cubie:
     def z(self):
         return self.current_position[2]
 
+    def apply_rotation(self, rotation):
+        self.current_position = np.rint(rotation.apply(self.current_position))
+        self.normals = [np.rint(v) for v in rotation.apply(self.normals)]
+
 
 def make_cube():
     cube = []

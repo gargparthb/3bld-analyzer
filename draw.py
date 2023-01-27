@@ -1,7 +1,7 @@
 import pyglet
 from pyglet import shapes
-import numpy as np
-import cubie
+import sys
+from cubie import make_cube
 
 color_scheme = {
     "white": (255, 255, 255),
@@ -28,11 +28,11 @@ batch = pyglet.graphics.Batch()
 stickers = [0 for x in range(56)]
 
 
-def draw_cube(cube):
+def place_faces(cube):
     draw_face(cube, lambda c: c.y() == 1, lambda qb: (qb.x() + 4, qb.z() + 7), (0, 1, 0), 0)
     draw_face(cube, lambda c: c.y() == -1, lambda qb: (qb.x() + 4, qb.z() + 1), (0, -1, 0), 9)
-    draw_face(cube, lambda c: c.x() == -1, lambda qb: (qb.y() + 1, qb.z() + 4), (-1, 0, 0), 18)
-    draw_face(cube, lambda c: c.x() == 1, lambda qb: (qb.y() + 7, qb.z() + 4), (1, 0, 0), 27)
+    draw_face(cube, lambda c: c.x() == -1, lambda qb: (qb.z() + 1, qb.y() + 4), (-1, 0, 0), 18)
+    draw_face(cube, lambda c: c.x() == 1, lambda qb: (qb.z() + 7, qb.y() + 4), (1, 0, 0), 27)
     draw_face(cube, lambda c: c.z() == 1, lambda qb: (qb.x() + 4, qb.y() + 4), (0, 0, 1), 36)
     draw_face(cube, lambda c: c.z() == -1, lambda qb: (qb.x() + 10, qb.y() + 4), (0, 0, -1), 45)
 
@@ -48,13 +48,11 @@ def draw_tile(pos, color, index):
                                                border=border, color=color, border_color=black, batch=batch)
 
 
-draw_cube(cubie.make_cube())
-
-
 @window.event
 def on_draw():
     window.clear()
     batch.draw()
 
+place_faces(eval(sys.argv[1]))
 
 pyglet.app.run()
